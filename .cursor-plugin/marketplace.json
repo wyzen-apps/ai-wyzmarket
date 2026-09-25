@@ -1,0 +1,17 @@
+{
+  "name": "wyzengroup",
+  "owner": {
+    "name": "Wyzengroup",
+    "email": "dev@wyzengroup.example"
+  },
+  "metadata": {
+    "description": "Plugins et skills Wyzengroup pour Claude Code, Codex et Cursor"
+  },
+  "plugins": [
+    {
+      "name": "setup-check",
+      "source": "./plugins/setup-check",
+      "description": "Détecte les plugins manquants de la marketplace Wyzengroup et affiche les commandes d'installation adaptées à l'outil hôte."
+    }
+  ]
+}

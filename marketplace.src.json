@@ -1,0 +1,10 @@
+{
+  "name": "wyzengroup",
+  "displayName": "Wyzengroup",
+  "description": "Plugins et skills Wyzengroup pour Claude Code, Codex et Cursor",
+  "owner": {
+    "name": "Wyzengroup",
+    "email": "dev@wyzengroup.example"
+  },
+  "repository": "https://github.com/wyzengroup/wyzen-marketplace"
+}

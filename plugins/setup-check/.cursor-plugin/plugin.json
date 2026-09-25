@@ -1,0 +1,15 @@
+{
+  "name": "setup-check",
+  "version": "1.0.0",
+  "description": "Détecte les plugins manquants de la marketplace Wyzengroup et affiche les commandes d'installation adaptées à l'outil hôte.",
+  "author": {
+    "name": "Wyzengroup"
+  },
+  "keywords": [
+    "bootstrap",
+    "dependencies",
+    "setup"
+  ],
+  "displayName": "Setup Check",
+  "skills": "./skills/"
+}
