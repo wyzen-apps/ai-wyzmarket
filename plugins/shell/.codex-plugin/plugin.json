@@ -1,0 +1,15 @@
+{
+  "name": "shell",
+  "version": "1.0.0",
+  "description": "Outils pour le script shell (bash, sh, ksh csh, PowerShell ...)",
+  "author": {
+    "name": "Wyzengroup"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "shell",
+    "shortDescription": "Outils pour le script shell (bash, sh, ksh csh, PowerShell ...)",
+    "developerName": "Wyzengroup",
+    "category": "Productivity"
+  }
+}

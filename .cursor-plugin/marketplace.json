@@ -9,9 +9,24 @@
   },
   "plugins": [
     {
+      "name": "code",
+      "source": "./plugins/code",
+      "description": "Outils pour le code source"
+    },
+    {
+      "name": "git",
+      "source": "./plugins/git",
+      "description": "Skills pour piloter les actions `git`"
+    },
+    {
       "name": "setup-check",
       "source": "./plugins/setup-check",
       "description": "Détecte les plugins manquants de la marketplace Wyzengroup et affiche les commandes d'installation adaptées à l'outil hôte."
+    },
+    {
+      "name": "shell",
+      "source": "./plugins/shell",
+      "description": "Outils pour le script shell (bash, sh, ksh csh, PowerShell ...)"
     }
   ]
 }

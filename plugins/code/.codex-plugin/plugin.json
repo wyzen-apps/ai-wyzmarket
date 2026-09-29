@@ -1,0 +1,15 @@
+{
+  "name": "code",
+  "version": "1.0.0",
+  "description": "Outils pour le code source",
+  "author": {
+    "name": "Wyzengroup"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "code",
+    "shortDescription": "Outils pour le code source",
+    "developerName": "Wyzengroup",
+    "category": "Productivity"
+  }
+}

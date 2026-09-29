@@ -1,0 +1,10 @@
+{
+  "name": "code",
+  "version": "1.0.0",
+  "description": "Outils pour le code source",
+  "author": {
+    "name": "Wyzengroup"
+  },
+  "displayName": "code",
+  "skills": "./skills/"
+}

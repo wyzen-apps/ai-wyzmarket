@@ -1,0 +1,7 @@
+{
+  "name": "git",
+  "version": "1.0.0",
+  "description": "Skills pour piloter les actions `git`",
+  "author": { "name": "Wyzengroup" }
+}
+

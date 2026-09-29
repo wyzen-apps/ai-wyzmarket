@@ -1,0 +1,15 @@
+{
+  "name": "git",
+  "version": "1.0.0",
+  "description": "Skills pour piloter les actions `git`",
+  "author": {
+    "name": "Wyzengroup"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "git",
+    "shortDescription": "Skills pour piloter les actions `git`",
+    "developerName": "Wyzengroup",
+    "category": "Productivity"
+  }
+}

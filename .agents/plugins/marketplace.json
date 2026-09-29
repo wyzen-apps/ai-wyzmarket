@@ -5,10 +5,46 @@
   },
   "plugins": [
     {
+      "name": "code",
+      "source": {
+        "source": "local",
+        "path": "./plugins/code"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "git",
+      "source": {
+        "source": "local",
+        "path": "./plugins/git"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "setup-check",
       "source": {
         "source": "local",
         "path": "./plugins/setup-check"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "shell",
+      "source": {
+        "source": "local",
+        "path": "./plugins/shell"
       },
       "policy": {
         "installation": "AVAILABLE",
