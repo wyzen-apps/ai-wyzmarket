@@ -6,5 +6,5 @@
   "category": "Productivity",
   "keywords": ["bootstrap", "dependencies", "setup"],
   "author": { "name": "Wyzengroup" },
-  "targets": ["claude", "codex", "cursor"]
+  "targets": ["claude", "codex", "cursor", "copilot"]
 }

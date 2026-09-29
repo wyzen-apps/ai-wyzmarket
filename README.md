@@ -1,6 +1,6 @@
 # Marketplace Wyzengroup
 
-Marketplace unique pour **Claude Code**, **Codex** et **Cursor**.
+Marketplace unique pour **Claude Code**, **Codex**, **Cursor** et **Copilot CLI**.
 
 ## Principe
 
@@ -18,6 +18,7 @@ On n'édite **jamais** les manifestes à la main. Les seules sources sont :
 | Claude Code | `.claude-plugin/marketplace.json`   | `plugins/<nom>/.claude-plugin/plugin.json` |
 | Codex       | `.agents/plugins/marketplace.json`  | `plugins/<nom>/.codex-plugin/plugin.json`  |
 | Cursor      | `.cursor-plugin/marketplace.json`   | `plugins/<nom>/.cursor-plugin/plugin.json` |
+| Copilot CLI | `.github/plugin/marketplace.json`   | `plugins/<nom>/.github/plugin/plugin.json` |
 
 ## Ajouter un plugin
 
@@ -41,6 +42,9 @@ La CI (`npm run check`) échoue si un manifeste est désynchronisé.
 # Codex
 codex plugin marketplace add wyzengroup/wyzen-marketplace
 codex plugin add setup-check@wyzengroup
+
+# Copilot CLI (accepte toute URL git, GitLab compris)
+copilot plugin marketplace add wyzengroup/wyzen-marketplace
 
 # Cursor : Settings → Plugins → Team Marketplaces → importer le dépôt
 # Test local : ln -s "$(pwd)/plugins/setup-check" ~/.cursor/plugins/local/setup-check

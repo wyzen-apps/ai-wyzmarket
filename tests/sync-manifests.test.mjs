@@ -22,11 +22,13 @@ function creerDepot({ plugin = {}, skill = 'demo', frontmatterName = skill, mcp 
 
 const lire = (racine, rel) => JSON.parse(readFileSync(join(racine, rel), 'utf8'));
 
-test('génère les 3 marketplaces et les 3 manifestes de plugin', () => {
+test('génère les 4 marketplaces et les 4 manifestes de plugin', () => {
   const racine = creerDepot();
   const res = executer(racine);
   assert.equal(res.ok, true);
-  assert.equal(res.total, 6);
+  assert.equal(res.total, 8);
+  assert.equal(lire(racine, '.github/plugin/marketplace.json').plugins[0].version, '1.0.0');
+  assert.equal(lire(racine, 'plugins/demo/.github/plugin/plugin.json').name, 'demo');
   assert.equal(lire(racine, '.claude-plugin/marketplace.json').plugins[0].source, './plugins/demo');
   assert.equal(lire(racine, '.agents/plugins/marketplace.json').plugins[0].source.path, './plugins/demo');
   assert.equal(lire(racine, 'plugins/demo/.codex-plugin/plugin.json').skills, './skills/');
@@ -43,7 +45,7 @@ test('--check échoue tant que les manifestes ne sont pas générés, puis passe
 test('respecte les cibles déclarées', () => {
   const racine = creerDepot({ plugin: { targets: ['claude'] } });
   const res = executer(racine);
-  assert.equal(res.total, 4); // 3 marketplaces + 1 plugin
+  assert.equal(res.total, 5); // 4 marketplaces + 1 plugin
   assert.equal(lire(racine, '.agents/plugins/marketplace.json').plugins.length, 0);
 });
 

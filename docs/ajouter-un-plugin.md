@@ -1,6 +1,6 @@
 # Ajouter un plugin
 
-Un plugin se compose uniquement de **fichiers sources** que tu écris toi-même. Les manifestes propres à chaque outil (`.claude-plugin/`, `.codex-plugin/`, `.cursor-plugin/`) sont **générés** : ne les crée pas et ne les modifie pas.
+Un plugin se compose uniquement de **fichiers sources** que tu écris toi-même. Les manifestes propres à chaque outil (`.claude-plugin/`, `.codex-plugin/`, `.cursor-plugin/`, `.github/plugin/`) sont **générés** : ne les crée pas et ne les modifie pas.
 
 ## Arborescence à créer
 
@@ -49,7 +49,7 @@ Règle de nommage : `<nom-du-plugin>` et `<nom-du-skill>` s'écrivent en **kebab
     "url": "<https://…>"
   },
   "repository": "<https://github.com/…>",
-  "targets": ["claude", "codex", "cursor"],
+  "targets": ["claude", "codex", "cursor", "copilot"],
   "codexInterface": {}
 }
 ```
@@ -66,14 +66,14 @@ Règle de nommage : `<nom-du-plugin>` et `<nom-du-skill>` s'écrivent en **kebab
 | `category`       | — | par défaut : `Productivity` | Codex (marketplace + interface), Claude (marketplace) |
 | `keywords`       | — | tableau de chaînes | les 3 |
 | `repository`     | — | URL | Claude |
-| `targets`        | — | sous-ensemble de `claude`, `codex`, `cursor` ; par défaut : les 3 | générateur |
+| `targets`        | — | sous-ensemble de `claude`, `codex`, `cursor`, `copilot` ; par défaut : les 4 | générateur |
 | `codexInterface` | — | objet fusionné dans le bloc `interface` de Codex (ex. `longDescription`, `websiteURL` en https) | Codex |
 
 ---
 
 ## 2. `skills/<nom-du-skill>/SKILL.md` (un par skill)
 
-Ce fichier est partagé **tel quel** par Claude Code, Codex et Cursor.
+Ce fichier est partagé **tel quel** par Claude Code, Codex, Cursor et Copilot CLI.
 
 ```markdown
 ---

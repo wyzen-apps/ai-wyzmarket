@@ -5,7 +5,7 @@
     "email": "dev@wyzengroup.example"
   },
   "metadata": {
-    "description": "Plugins et skills Wyzengroup pour Claude Code, Codex et Cursor"
+    "description": "Plugins et skills Wyzengroup pour Claude Code, Codex, Cursor et Copilot CLI"
   },
   "plugins": [
     {

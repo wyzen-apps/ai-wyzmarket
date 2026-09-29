@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Génère les manifestes Claude Code, Codex et Cursor à partir des sources uniques :
+ * Génère les manifestes Claude Code, Codex, Cursor et Copilot CLI à partir des sources uniques :
  *   - marketplace.src.json               (racine)
  *   - plugins/<nom>/plugin.src.json      (un par plugin)
  *
@@ -14,7 +14,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSy
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const CIBLES = ['claude', 'codex', 'cursor'];
+export const CIBLES = ['claude', 'codex', 'cursor', 'copilot'];
 const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const SEMVER = /^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$/;
 
@@ -165,12 +165,28 @@ export const generateurs = {
     }),
     plugin: (p) => ({ ...base(p), displayName: p.displayName ?? p.name, ...composants(p) }),
   },
+
+  copilot: {
+    marketplace: ({ marketplace, plugins }) => ({
+      name: marketplace.name,
+      owner: marketplace.owner,
+      metadata: { description: marketplace.description },
+      plugins: plugins.filter(pour('copilot')).map((p) => ({
+        name: p.name,
+        description: p.description,
+        version: p.version,
+        source: cheminSource(p),
+      })),
+    }),
+    plugin: (p) => ({ ...base(p), ...(p.repository && { repository: p.repository }) }),
+  },
 };
 
 const EMPLACEMENTS = {
   claude: { marketplace: '.claude-plugin/marketplace.json', plugin: '.claude-plugin/plugin.json' },
   codex: { marketplace: '.agents/plugins/marketplace.json', plugin: '.codex-plugin/plugin.json' },
   cursor: { marketplace: '.cursor-plugin/marketplace.json', plugin: '.cursor-plugin/plugin.json' },
+  copilot: { marketplace: '.github/plugin/marketplace.json', plugin: '.github/plugin/plugin.json' },
 };
 
 const serialiser = (objet) => `${JSON.stringify(objet, null, 2)}\n`;

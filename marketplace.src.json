@@ -1,7 +1,7 @@
 {
   "name": "wyzengroup",
   "displayName": "Wyzengroup",
-  "description": "Plugins et skills Wyzengroup pour Claude Code, Codex et Cursor",
+  "description": "Plugins et skills Wyzengroup pour Claude Code, Codex, Cursor et Copilot CLI",
   "owner": {
     "name": "Wyzengroup",
     "email": "dev@wyzengroup.example"
