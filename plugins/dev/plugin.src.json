@@ -1,0 +1,10 @@
+{
+  "name": "dev",
+  "version": "0.1.0",
+  "displayName": "Orchestrateur de développement",
+  "description": "Orchestrateur d'agents de développement : feature, fix, revue, MR/PR, audits, dépendances, avec gates DoD bloquantes.",
+  "category": "Productivity",
+  "keywords": ["orchestrateur", "tdd", "revue", "dod", "gitlab", "github"],
+  "author": { "name": "Wyzengroup" },
+  "targets": ["claude", "codex", "cursor"]
+}

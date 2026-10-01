@@ -1,0 +1,22 @@
+openapi: 3.0.3
+info:
+  title: "[Nom du contrat exposé au tiers]"
+  description: "API tierce non documentée ici = non livrée. Tenir ce fichier à jour à chaque modification de contrat."
+  version: "1.0.0"
+servers:
+  - url: "https://[a-completer]"
+paths:
+  /exemple:
+    get:
+      summary: "[Ce que fait cet appel, en une phrase compréhensible]"
+      responses:
+        "200":
+          description: "[Ce que reçoit le tiers en cas de succès]"
+        "400":
+          description: "[Cas d'erreur métier, en langage clair]"
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
