@@ -32,22 +32,57 @@ En résumé :
 
 La CI (`npm run check`) échoue si un manifeste est désynchronisé.
 
+## Dépôt et identifiants
+
+| Rôle | Valeur |
+|------|--------|
+| Marketplace (nom dans les manifestes) | `wyzengroup` → plugins `…@wyzengroup` |
+| Dépôt GitHub (distribution Cursor, Codex, Claude, Copilot) | [github.com/wyzen-apps/ai-wyzmarket](https://github.com/wyzen-apps/ai-wyzmarket) |
+| Dépôt GitLab (développement interne) | `gitlab.com/wyzen-total/shared/ia/wyzmarket` |
+
+Le champ `repository` de `marketplace.src.json` doit pointer vers le dépôt **GitHub** ci-dessus. Après modification, lancer `npm run sync` puis pousser sur `github.wyzen-apps` (`main`).
+
 ## Installation
+
+Remplacer `<plugin>` par `dev`, `setup-check`, etc. Le suffixe `@wyzengroup` vient du champ `name` du marketplace, pas du nom du dépôt Git.
 
 ```bash
 # Claude Code
-/plugin marketplace add wyzengroup/wyzen-marketplace
-/plugin install setup-check@wyzengroup
+/plugin marketplace add wyzen-apps/ai-wyzmarket
+/plugin install <plugin>@wyzengroup
 
-# Codex
-codex plugin marketplace add wyzengroup/wyzen-marketplace
-codex plugin add setup-check@wyzengroup
+# Codex (CLI ou app ChatGPT — manifeste : .agents/plugins/marketplace.json)
+codex plugin marketplace add wyzen-apps/ai-wyzmarket --ref main
+codex plugin marketplace refresh wyzengroup   # après un push sur main
+codex plugin add <plugin>@wyzengroup
 
-# Copilot CLI (accepte toute URL git, GitLab compris)
-copilot plugin marketplace add wyzengroup/wyzen-marketplace
+# Depuis un clone local (test)
+codex plugin marketplace add "$(pwd)"
+codex plugin add <plugin>@wyzengroup
 
-# Cursor : Settings → Plugins → Team Marketplaces → importer le dépôt
-# Test local : ln -s "$(pwd)/plugins/setup-check" ~/.cursor/plugins/local/setup-check
+# Copilot CLI (URL git ou owner/repo)
+copilot plugin marketplace add wyzen-apps/ai-wyzmarket
+```
+
+### Cursor (Team Marketplace)
+
+Réservé aux offres **Teams** ou **Enterprise**. **Seul GitHub** est supporté pour l’import (pas le GitLab interne).
+
+1. [Dashboard Cursor](https://cursor.com/dashboard) → **Settings** → **Plugins** → **Team Marketplaces** → **Import**.
+2. URL du dépôt : `https://github.com/wyzen-apps/ai-wyzmarket` (branche `main`).
+3. Cursor lit `.cursor-plugin/marketplace.json` à la racine ; tu dois voir **5 plugins** (`code`, `dev`, `git`, `setup-check`, `shell`).
+
+**Public ou privé ?** Les deux fonctionnent.
+
+- **Public** : import sans intégration supplémentaire.
+- **Privé** : installer l’**app GitHub Cursor** sur l’org `wyzen-apps`, lui donner accès au repo, activer **Auto Refresh** si besoin. L’indexation côté Cursor passe par l’app ; le **clone des plugins sur le poste** utilise quand même `git` local (SSH ou PAT / `~/.netrc` si l’import ou l’install échoue en auth).
+
+Si l’import affiche **0 plugin** : vérifier que `main` sur GitHub contient bien `.cursor-plugin/marketplace.json` et chaque `plugins/<nom>/.cursor-plugin/plugin.json` (générés par `npm run sync`).
+
+Test local sans marketplace d’équipe :
+
+```bash
+ln -s "$(pwd)/plugins/setup-check" ~/.cursor/plugins/local/setup-check
 ```
 
 ## Hors périmètre du générateur
