@@ -51,5 +51,6 @@ Une MR/PR ouverte, décrite, et liée à des vérifications vertes, sans interve
 ## Règles
 
 - Jamais de merge, d'approbation, de fermeture ni de push forcé.
+- Ne jamais merger `staging` dans une autre branche : `staging` est une branche de tests pouvant contenir d'autres branches de travail.
 - Jamais `--fill` ni `--push` : le push est fait explicitement à l'étape 5.
 - Option non listée ici : la vérifier avec `--help` avant usage (la version installée peut différer).

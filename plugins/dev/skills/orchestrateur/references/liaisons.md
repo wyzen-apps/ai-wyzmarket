@@ -21,8 +21,8 @@ dossier des skills du client (`~/.agents/skills/<skill>/`, `~/.claude/skills/<sk
 | `revue-code` | `thermo-nuclear-code-quality-review` | `cursor/plugins` | — | verdict dans le rapport du contrat, aucun fichier modifié |
 | `reception-revue` | `receiving-code-review` | `obra/superpowers` | — | — |
 | `ui` | `impeccable` | `pbakaus/impeccable` | MCP chrome-devtools | — |
-| `commit` | `git-commit` | `wyzengroup/git` | — | prérequis du skill satisfaits par la gate verte : la citer dans la consigne ; ignorer ses renvois vers d'autres fichiers de règles |
-| `shell` | `shell-scripting` | `wyzengroup/shell` | — | — |
+| `commit` | `git-commit` | `dev` | — | vérifications satisfaites par la gate verte : la citer dans la consigne |
+| `shell` | `shell-scripting` | `dev` | — | — |
 | `explication` | `explain-code` | `wyzengroup/code` | — | — |
 | `verification` | `verification-qualite` | `dev` | — | — |
 | `branche` | `branche-travail` | `dev` | — | — |

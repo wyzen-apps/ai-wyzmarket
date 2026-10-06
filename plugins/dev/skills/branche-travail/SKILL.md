@@ -56,3 +56,4 @@ sans jamais écrire sur la branche de base ni sur la production.
 - Jamais de commit, push, reset, stash, rebase ni suppression de branche.
 - Jamais de modification de fichier sur la branche de base ou de production.
 - Ne jamais choisir à la place de l'humain entre la branche courante et une nouvelle branche.
+- Ne jamais merger `staging` dans une autre branche : `staging` est une branche de tests pouvant contenir d'autres branches de travail.
