@@ -23,6 +23,15 @@
 - Ne pas supprimer de code sans comprendre son rôle.
 - Dire « je ne sais pas » plutôt qu'inventer.
 
+## Normalisation du code
+- Avant d'écrire du code, chercher la configuration de normalisation du langage touché
+  (`.editorconfig`, `phpcs.xml`, `.php-cs-fixer.php`, `.prettierrc`, `eslint.config.*`, `biome.json`,
+  `.shellcheckrc`, `PSScriptAnalyzerSettings.psd1`…) et la respecter, même si aucun script ne l'exécute.
+- Configuration en erreur (syntaxe invalide, option supprimée ou dépréciée, chemin inexistant) :
+  la corriger, en vérifiant l'option dans la documentation de la version installée.
+- Corriger n'est jamais affaiblir : aucune règle désactivée, aucune exclusion ni seuil relâché ;
+  signaler la correction à l'humain.
+
 ## Réutiliser l'existant
 - Chercher dans le code et `docs/ia/references.md` avant de créer un service, un composant ou un helper.
 - Suivre les conventions déjà en place dans le dépôt.

@@ -11,6 +11,8 @@
 - Corps si plus de 2 fichiers : puces `-` sur le quoi et le pourquoi (7 au plus, 72 caractères chacune).
 - `git status` et `git diff` avant de rédiger ; jamais `git add -A` sans relire la liste.
 - Interdits : `--no-verify`, `--amend` d'un commit poussé, push forcé, réécriture d'un historique partagé.
+- Aucun `Co-Authored-By` dans un message git (commit, merge, amend), ni de l'agent ni d'un autre
+  auteur, sauf demande explicite de l'humain.
 
 ## Push, MR/PR
 - Push, MR/PR et merge uniquement à la demande de l'humain.
