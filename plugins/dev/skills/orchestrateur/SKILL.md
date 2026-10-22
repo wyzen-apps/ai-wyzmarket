@@ -1,6 +1,7 @@
 ---
 name: orchestrateur
-description: Orchestrateur de développement logiciel (PHP Symfony/Slim, React/TypeScript/Next.js/TanStack, shell, PowerShell). À utiliser pour TOUTE demande de développement dans un projet — feature, fix, hotfix, debug, refactor, revue de code, création ou relecture de MR/PR, audit sécurité ou architecture, mise à jour de dépendances, onboarding, documentation, commit, question sur le code, spike. Choisit le workflow, délègue les étapes à des sous-agents et n'avance que sur des gates DoD vertes.
+description: Orchestrateur de développement logiciel (...). À utiliser quand l'humain demande un workflow outillé — feature, fix, hotfix, debug, refactor, revue de code, création ou relecture de MR/PR, audit sécurité ou architecture, mise à jour de dépendances, onboarding, documentation, spike. Pas pour une simple question sur le code ni un commit isolé. Choisit le workflow, délègue les étapes à des sous-agents et n'avance que sur des gates DoD vertes.
+model: sonnet
 ---
 
 # Orchestrateur de développement
@@ -53,12 +54,12 @@ publication de commentaires : uniquement à la demande de l'humain.
 
 ## 5. Stack du module touché → rule
 
-| Indice | Rule |
-|---|---|
-| `composer.json` requiert `symfony/framework-bundle` | `php-symfony` |
-| `composer.json` requiert `slim/slim` | `php-slim` |
-| `package.json` dépend de `react` (Next.js compris) | `react-typescript` |
-| fichiers `*.ps1` ou `*.psm1` touchés | `powershell` |
+| Indice                                              | Rule               |
+| --------------------------------------------------- | ------------------ |
+| `composer.json` requiert `symfony/framework-bundle` | `php-symfony`      |
+| `composer.json` requiert `slim/slim`                | `php-slim`         |
+| `package.json` dépend de `react` (Next.js compris)  | `react-typescript` |
+| fichiers `*.ps1` ou `*.psm1` touchés                | `powershell`       |
 
 Scripts `*.sh` touchés → capacité `shell` en plus. Aucun indice → pas de rule de stack.
 
