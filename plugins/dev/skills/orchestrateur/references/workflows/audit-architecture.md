@@ -1,6 +1,7 @@
 # Workflow : audit-architecture
 
 Aucune modification. La remédiation passe ensuite par `refactor`, une étape à la fois.
+Requis : aucun skill externe
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|

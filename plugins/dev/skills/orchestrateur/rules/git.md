@@ -1,19 +1,13 @@
 # Git
 
-## Branches
-- Une branche par tâche, créée avant toute modification ; jamais de modification sur la base ni sur la production.
-- Nom : `type/#<ticket>-<libellé>` ou `type/<libellé>` ; types `feat`, `fix`, `hotfix`, `refactor`,
-  `chore`, `docs`, `test`, `spike` ; libellé en kebab-case sans accents.
-
-## Commits
-- Un commit par tâche, une fois sa gate verte ; code, tests et docs du même changement ensemble.
-- Titre : `type : description` (verbe à l'infinitif, 50 caractères au plus, sans point final).
-- Corps si plus de 2 fichiers : puces `-` sur le quoi et le pourquoi (7 au plus, 72 caractères chacune).
-- `git status` et `git diff` avant de rédiger ; jamais `git add -A` sans relire la liste.
-- Interdits : `--no-verify`, `--amend` d'un commit poussé, push forcé, réécriture d'un historique partagé.
-- Aucun `Co-Authored-By` dans un message git (commit, merge, amend), ni de l'agent ni d'un autre
-  auteur, sauf demande explicite de l'humain.
-
-## Push, MR/PR
-- Push, MR/PR et merge uniquement à la demande de l'humain.
-- Description de MR/PR : objectif, périmètre, comment tester, points de vigilance, vérifications.
+- Branche par tâche, créée avant toute modification ; rien sur la base ni la production.
+  Nom : `type/#<ticket>-<libellé>` ou `type/<libellé>` (types `feat`, `fix`, `hotfix`, `refactor`,
+  `chore`, `docs`, `test`, `spike` ; kebab-case sans accents).
+- `staging` n'est jamais mergée dans une autre branche (branche de tests mêlant d'autres branches).
+- Un commit par tâche, gate verte ; code, tests et docs ensemble. Titre `type : description`
+  (infinitif, 50 caractères, sans point). Corps au-delà de 2 fichiers : 7 puces `-` au plus, 72
+  caractères, le quoi et le pourquoi.
+- Interdits : `git add -A` sans relire la liste, `--no-verify`, `--amend` d'un commit poussé, push
+  forcé, réécriture d'historique partagé, `Co-Authored-By` (sauf demande explicite).
+- Push, MR/PR, merge : sur demande. Description de MR/PR : objectif, périmètre, comment tester,
+  points de vigilance, vérifications.

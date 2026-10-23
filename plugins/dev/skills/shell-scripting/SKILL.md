@@ -1,112 +1,51 @@
 ---
 name: shell-scripting
-description: Expert en développement Shell (bash/sh). Applique les bonnes pratiques professionnelles lors de la création ou modification de scripts Shell (`*.sh`, `*.bash`) — structure, variables, factorisation, documentation, style et validation shellcheck.
+description: Conventions maison pour créer ou modifier un script bash/sh (*.sh, *.bash) — structure, en-tête, variables, style, validation shellcheck.
+paths: "**/*.sh, **/*.bash"
+effort: low
 ---
 
-# Développement Shell (bash/sh)
+# Scripts Shell (bash/sh)
 
-## Objectif
-
-Produire ou modifier des scripts Shell lisibles, robustes et documentés, validés par shellcheck.
-
-## Quand l'utiliser
-
-- Création ou modification d'un script `*.sh` ou `*.bash`.
+Bonnes pratiques bash supposées connues ; seules les conventions maison suivent.
 
 ## Entrée
 
-- Le script à créer ou à modifier, et le comportement attendu.
-- Optionnel : l'auteur et la date à inscrire dans l'en-tête.
+- Script à créer ou modifier, comportement attendu ; optionnel : auteur et date de l'en-tête.
 
 ## Procédure
 
-1. **Organisation** : sections claires (variables, fonctions, logique principale) ; fonctions en haut
-   du fichier (ou dans des fichiers séparés si volumineuses) ; logique principale dans `main()`
-   appelée en fin de fichier ; `set -euo pipefail` dès le début, sauf contre-indication justifiée.
-2. **Variables** : MAJUSCULES avec underscores (`MY_VARIABLE`) ; `readonly` pour les constantes ;
-   peu de variables globales, préférer les arguments ou `local` dans les fonctions.
-3. **Factorisation** : logiques répétées dans des fonctions réutilisables et paramétrées ; chemins et
-   constantes centralisés dans une section dédiée (`config`, `env`).
-4. **Documentation** par commentaires `#` : en-tête (description, auteur, date, usage, dépendances) ;
-   pour chaque fonction, objectif, paramètres et valeurs de retour ; sections complexes (regex,
-   commandes avancées, logique non triviale) ; `--help` si le script est destiné à être partagé.
-5. **Style** : indentation cohérente de 2 ou 4 espaces, sans tabulations mélangées ; `[[ ... ]]` pour
-   les conditions, jamais `[ ... ]` ; variables toujours citées `"${VAR}"`.
-6. **Validation** : lancer shellcheck et corriger les alertes avant livraison.
+1. `set -euo pipefail` en tête (dérogation justifiée en commentaire).
+2. Sections dans l'ordre : en-tête, `CONSTANTES & CONFIGURATION`, `FONCTIONS`, `POINT D'ENTRÉE`
+   (`main "$@"` en dernière ligne) ; fonctions volumineuses dans des fichiers sourcés.
+3. Variables en `MAJUSCULES_AVEC_UNDERSCORES` ; `readonly` pour les constantes ; `local` dans les
+   fonctions ; peu de globales ; chemins et constantes centralisés.
+4. `[[ … ]]`, jamais `[ … ]` ; variables citées `"${VAR}"` ; indentation 2 ou 4 espaces, sans tabulation mélangée.
+5. Commentaires `#` : en-tête ; par fonction, objectif, paramètres, retour ; parties non
+   triviales (regex, commandes avancées). `--help` si le script est partagé.
+6. `shellcheck` sans alerte avant livraison.
 
 ## Format de sortie
 
-Le script respectant cette structure minimale, puis la checklist de livraison cochée :
+Le script, avec cet en-tête :
 
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
 
 # =============================================================================
-# Nom du script
+# <nom du script>
 # Description : <description courte>
 # Auteur      : <Prénom Nom>
-# Date        : <YYYY-MM-DD>
+# Date        : <AAAA-MM-JJ>
 # Usage       : ./script.sh [options]
 # Dépendances : <commandes externes requises>
 # =============================================================================
-
-# -----------------------------------------------------------------------------
-# CONSTANTES & CONFIGURATION
-# -----------------------------------------------------------------------------
-readonly MON_REPERTOIRE="/chemin/vers/dossier"
-readonly AUTRE_CONSTANTE="${1:-valeur_par_defaut}"
-
-# -----------------------------------------------------------------------------
-# FONCTIONS
-# -----------------------------------------------------------------------------
-
-# Affiche l'aide et quitte.
-usage() {
-  echo "Usage : $(basename "$0") [destination]"
-  echo "  destination  Répertoire cible (défaut : /tmp/backup)"
-  exit 0
-}
-
-# Effectue la sauvegarde des logs.
-# Params : $1 = source, $2 = destination
-# Retour : 0 si succès, 1 si erreur
-backup_logs() {
-  local src="$1"
-  local dest="$2"
-
-  echo "Sauvegarde de ${src} vers ${dest}..."
-  mkdir -p "${dest}"
-  cp -r "${src}"/* "${dest}/"
-}
-
-# -----------------------------------------------------------------------------
-# POINT D'ENTRÉE
-# -----------------------------------------------------------------------------
-main() {
-  [[ "${1:-}" == "--help" ]] && usage
-
-  backup_logs "${MON_REPERTOIRE}" "${AUTRE_CONSTANTE}"
-  echo "Terminé avec succès."
-}
-
-main "$@"
 ```
 
-Checklist avant livraison :
-
-- [ ] `set -euo pipefail` présent en début de script
-- [ ] En-tête de documentation complet
-- [ ] Toutes les variables citées avec `"${VAR}"`
-- [ ] Conditions avec `[[ ... ]]`
-- [ ] Constantes déclarées avec `readonly`
-- [ ] Variables locales déclarées avec `local` dans les fonctions
-- [ ] Logique principale encapsulée dans `main()`
-- [ ] Option `--help` disponible
-- [ ] Script validé avec shellcheck
+Puis la checklist cochée : `set -euo pipefail`, en-tête complet, `"${VAR}"`, `[[ ]]`, `readonly`,
+`local`, `main()`, `--help`, shellcheck.
 
 ## Règles
 
-- Ces règles s'appliquent à tout script créé ou modifié ; toute dérogation à `set -euo pipefail`
-  est justifiée en commentaire.
-- Ne jamais livrer un script sans l'avoir passé à shellcheck.
+- S'applique à tout script créé ou modifié ; jamais livré sans shellcheck.

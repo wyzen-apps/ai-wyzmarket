@@ -1,56 +1,45 @@
 ---
 name: creation-mr
-description: Ouvre la merge request GitLab (glab) ou la pull request GitHub (gh) d'une branche vérifiée — détection de la forge, authentification, doublon, push, description structurée — en mode non interactif. À utiliser quand l'humain demande de créer ou d'ouvrir une MR ou une PR.
+description: Ouvre la MR GitLab (glab) ou la PR GitHub (gh) d'une branche vérifiée, en non interactif — forge, authentification, doublon, push, description.
+disable-model-invocation: true
+effort: low
 ---
 
 # Création de MR / PR
 
-## Objectif
-
-Une MR/PR ouverte, décrite, et liée à des vérifications vertes, sans intervention manuelle.
-
-## Quand l'utiliser
-
-- L'humain demande d'ouvrir une MR (GitLab) ou une PR (GitHub) pour une branche.
-
 ## Entrée
 
-- `branche`, `base` (branche cible), `titre`.
-- `resume` : objectif, périmètre, changements (commits), comment tester, points de vigilance.
-- `verification` : bloc de vérification ; son verdict doit être VERT.
-- `brouillon` : oui | non. `dossier` : dossier de travail pour les fichiers temporaires.
+- `branche`, `base` (cible), `titre`, `brouillon` (oui | non), `dossier` (fichiers temporaires).
+- `resume` : objectif, périmètre, commits, comment tester, points de vigilance.
+- `verification` : bloc de vérification, verdict VERT exigé.
 
 ## Procédure
 
-1. Verdict de `verification` différent de VERT → statut `ERREUR`, fin.
-2. Forge, depuis `git remote get-url origin` : hôte contenant `github.com` → GitHub ; contenant
-   `gitlab` → GitLab ; sinon `glab auth status --hostname <hôte>` réussit → GitLab,
-   `gh auth status --hostname <hôte>` réussit → GitHub ; sinon statut `A_CLARIFIER`.
-3. Authentification : `glab auth status` ou `gh auth status` ; échec → `ERREUR`, avec la commande
-   `glab auth login` ou `gh auth login`.
-4. Doublon : GitLab `glab mr list --source-branch <branche> -F json` ; GitHub
-   `gh pr list --head <branche> --json number,url`. Résultat non vide → statut `EXISTANTE` avec son URL
-   (`web_url` pour GitLab, `url` pour GitHub).
-5. Push : `git push -u origin <branche>` (jamais forcé).
-6. Description : remplir `templates/description.md` dans `<dossier>/description-mr.md`.
-7. Création :
-   - GitLab : `glab mr create --source-branch <branche> --target-branch <base> --title "<titre>" --description "$(cat <dossier>/description-mr.md)" --yes` (+ `--draft` si brouillon) ;
-   - GitHub : `gh pr create --base <base> --head <branche> --title "<titre>" --body-file <dossier>/description-mr.md` (+ `--draft` si brouillon).
-8. URL : dernière ligne de la sortie de la commande de création.
+1. Verdict ≠ VERT → `ERREUR`, fin.
+2. Forge depuis `git remote get-url origin` : `github.com` → GitHub ; `gitlab` → GitLab ; sinon
+   `glab auth status --hostname <hôte>` ou `gh auth status --hostname <hôte>` qui réussit ;
+   sinon `A_CLARIFIER`.
+3. `glab auth status` / `gh auth status` en échec → `ERREUR` avec `glab auth login` / `gh auth login`.
+4. Doublon : `glab mr list --source-branch <branche> -F json` / `gh pr list --head <branche>
+   --json number,url` non vide → `EXISTANTE` avec `web_url` / `url`.
+5. `git push -u origin <branche>` (jamais forcé).
+6. Remplir `templates/description.md` dans `<dossier>/description-mr.md`.
+7. Créer (+ `--draft` si brouillon) :
+   - GitLab : `glab mr create --source-branch <branche> --target-branch <base> --title "<titre>" --description "$(cat <dossier>/description-mr.md)" --yes` ;
+   - GitHub : `gh pr create --base <base> --head <branche> --title "<titre>" --body-file <dossier>/description-mr.md`.
+8. URL : dernière ligne de la sortie.
 
 ## Format de sortie
 
 ```markdown
 ## MR/PR
-- statut : CREEE | EXISTANTE | A_CLARIFIER | ERREUR
-- forge : GitLab | GitHub
+- statut : CREEE | EXISTANTE | A_CLARIFIER | ERREUR · forge : GitLab | GitHub
 - url : <url>
 - message : <détail si A_CLARIFIER ou ERREUR>
 ```
 
 ## Règles
 
-- Jamais de merge, d'approbation, de fermeture ni de push forcé.
-- Ne jamais merger `staging` dans une autre branche : `staging` est une branche de tests pouvant contenir d'autres branches de travail.
-- Jamais `--fill` ni `--push` : le push est fait explicitement à l'étape 5.
-- Option non listée ici : la vérifier avec `--help` avant usage (la version installée peut différer).
+- Jamais de merge, d'approbation, de fermeture, de push forcé, de `--fill` ni de `--push`.
+- `staging` n'est jamais mergée dans une autre branche.
+- Option non listée ici : la vérifier avec `--help` avant usage.

@@ -1,6 +1,7 @@
 # Workflow : doc-legacy
 
 Branche : `docs` · Pour chaque scope : lignes 3 à 5.
+Requis : aucun skill externe
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|

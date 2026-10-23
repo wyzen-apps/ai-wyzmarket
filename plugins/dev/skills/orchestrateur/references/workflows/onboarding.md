@@ -1,6 +1,7 @@
 # Workflow : onboarding
 
 Branche : `chore/onboarding-orchestrateur`.
+Requis : aucun skill externe
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|

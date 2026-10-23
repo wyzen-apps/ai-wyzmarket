@@ -1,14 +1,15 @@
 # Étape : cadrage
 
-Capacités : `cadrage`, `principes`
+Capacités : `cadrage`
 Rules : `principes`
 Exécutant : orchestrateur (dialogue avec l'humain)
 Entrée : la demande, `RULES.md`, les documents `docs/ia/` du périmètre s'ils existent
 Procédure :
-1. Invoquer `cadrage` : questions une à une, à choix multiples quand c'est possible.
-2. Neutralisation : spec dans `<run>/spec.md`, pas de commit ; à la fin, rendre la main.
-3. Version courte (fix complexe, spike) : reformuler la question, proposer la correction ou la
-   sonde envisagée en 2 ou 3 phrases, demander validation.
-4. Noter au journal les hypothèses retenues et ce qui est exclu.
-Sortie attendue : `<run>/spec.md`, ou le cadrage court au journal, approuvé par l'humain
+1. Appliquer `cadrage` (lu une fois, à cette étape seulement), avec ces neutralisations :
+   - spec dans `<run>/spec.md`, jamais `docs/superpowers/`, sans commit ;
+   - compagnon visuel seulement à la demande de l'humain ;
+   - relecture de la spec par toi-même, sans sous-agent ;
+   - à la fin, n'invoquer ni `writing-plans` ni aucun skill : rendre la main au workflow.
+2. Journal : hypothèses retenues et exclusions.
+Sortie attendue : `<run>/spec.md` approuvé par l'humain
 Gate : humain — approbation explicite (**STOP**)

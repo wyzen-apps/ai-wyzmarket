@@ -1,54 +1,41 @@
 ---
 name: audit-securite
-description: Audit de sécurité d'un code PHP (Symfony, Slim), React/Next.js, shell ou PowerShell sur un diff, des chemins ou tout le projet — injections, XSS, CSRF, contrôle d'accès confronté à la matrice des droits, secrets, dépendances vulnérables, SSRF, téléversements. Produit des constats classés et prouvés, sans rien corriger.
+description: Audit de sécurité PHP (Symfony, Slim), React/Next.js, shell ou PowerShell d'un diff, de chemins ou d'un projet — constats classés et prouvés, sans correction.
+disable-model-invocation: true
+effort: high
 ---
 
 # Audit de sécurité
 
-## Objectif
-
-Des constats exploitables : chacun prouvé par un extrait du code, classé, avec un scénario
-d'attaque et une correction proposée.
-
-## Quand l'utiliser
-
-- Audit demandé d'un projet ou d'un module.
-- Relecture d'un diff sensible (authentification, droits, entrées externes, requêtes, fichiers).
-
 ## Entrée
 
-- `perimetre` : un diff, des chemins, ou le projet entier.
-- `stacks` : parmi `php`, `react-next`, `shell-powershell`.
-- `matrice` (optionnel) : chemin de la matrice des droits (`docs/ia/matrice_des_droits.md`).
+- `perimetre` : diff, chemins ou projet ; `stacks` : parmi `php`, `react-next`, `shell-powershell`.
+- `matrice` (optionnel) : `docs/ia/matrice_des_droits.md`.
 
 ## Procédure
 
-1. Charger `references/<stack>.md` pour chaque stack du périmètre, et seulement celles-là.
-2. Parcourir le périmètre avec la checklist de chaque référence.
-3. Contrôle d'accès : pour chaque route ou action du périmètre, retrouver la vérification de
-   droit côté serveur ; avec une matrice, confronter chaque action au profil attendu.
-4. Dépendances : `composer audit --no-interaction --locked` et/ou `npm audit --audit-level=high`
-   (`pnpm audit --audit-level high` avec pnpm) dans chaque module du périmètre.
-5. Secrets : clés, jetons, mots de passe en dur, fichiers `.env*.local` suivis par git.
-6. Classer chaque constat :
-   - critique : exploitable à distance sans authentification, ou fuite de données massive ;
-   - haute : exploitable par un utilisateur authentifié, ou élévation de privilège ;
-   - moyenne : exploitation sous conditions, ou défense en profondeur absente ;
-   - basse : bonne pratique non suivie, sans exploitation connue.
+1. Lire `references/<stack>.md` des seules stacks du périmètre : ce sont les points propres à
+   vérifier en plus de l'OWASP Top 10, déjà connu.
+2. Contrôle d'accès : pour chaque route ou action, retrouver la vérification de droit côté
+   serveur ; avec une matrice, confronter chaque action au profil attendu.
+3. Dépendances, par module : `composer audit --no-interaction --locked`, `npm audit --audit-level=high`
+   ou `pnpm audit --audit-level high`.
+4. Secrets : en dur dans le code, fichiers `.env*.local` suivis par git.
+5. Sévérité : critique (à distance sans authentification, fuite massive) ; haute (utilisateur
+   authentifié, élévation de privilège) ; moyenne (sous conditions, défense en profondeur
+   absente) ; basse (bonne pratique, sans exploitation connue).
 
 ## Format de sortie
 
 ```markdown
 ## Audit de sécurité
-| # | Sévérité | Fichier:ligne | Constat | Preuve (extrait) | Scénario | Correction proposée |
+| # | Sévérité | Fichier:ligne | Constat | Preuve (extrait court) | Scénario | Correction proposée |
 |---|---|---|---|---|---|---|
-
 - Dépendances : <commande → résultat>
-- Non couvert : <parties du périmètre non auditées, et pourquoi>
+- Non couvert : <parties non auditées, et pourquoi>
 ```
 
 ## Règles
 
-- Aucun constat sans extrait de code qui le prouve ; un doute se note « à vérifier », sans sévérité.
-- Aucune correction, aucune modification de fichier.
-- Jamais la valeur d'un secret dans le rapport : seulement sa position et son type.
+- Aucun constat sans extrait qui le prouve ; un doute se note « à vérifier », sans sévérité.
+- Aucune correction, aucune modification ; jamais la valeur d'un secret (position et type seulement).

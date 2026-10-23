@@ -1,6 +1,7 @@
 # Workflow : refactor
 
 Branche : `refactor` · Gate : `qualite` · Pour chaque étape du plan : lignes 7 à 11.
+Requis : `writing-plans`, `context7-mcp`, `thermo-nuclear-code-quality-review`
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|

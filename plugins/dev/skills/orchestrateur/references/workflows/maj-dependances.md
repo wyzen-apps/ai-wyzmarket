@@ -1,11 +1,12 @@
 # Workflow : maj-dependances
 
 Branche : `chore` · Gate : `qualite` · Pour chaque lot : lignes 4 à 8.
+Requis : `context7-mcp`
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|
 | 1 | `inventaire-dependances` | toujours | 2 | STOP |
-| 2 | `plan` | un lot par tâche | 3 | STOP |
+| 2 | `plan-court` | un lot par tâche | 3 | STOP |
 | 3 | `branche` | type `chore` | 4 | STOP |
 | 4 | `mise-a-jour-lot` | lot suivant | 5 | STOP |
 | 5 | `gate-qualite` | toujours | 6 | 7 |

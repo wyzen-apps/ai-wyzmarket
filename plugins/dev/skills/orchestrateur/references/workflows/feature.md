@@ -1,6 +1,7 @@
 # Workflow : feature
 
 Branche : `feat` · Gate des tâches : `qualite` · Pour chaque tâche : lignes 5 à 11.
+Requis : `brainstorming`, `writing-plans`, `context7-mcp`, `thermo-nuclear-code-quality-review`, `impeccable`
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|

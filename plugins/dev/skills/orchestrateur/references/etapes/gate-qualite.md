@@ -3,10 +3,14 @@
 Capacités : `verification`
 Rules : aucune
 Exécutant : orchestrateur
-Entrée : base et tolérances du journal ; niveau `qualite` (en `hotfix` : `complet` + tolérance `depot:arbre`)
+Entrée : base du journal (sans `@<sha>`), tolérances du journal ; niveau `qualite` (hotfix : `complet` + tolérance `depot:arbre`)
 Procédure :
-1. Invoquer `verification`, sortie `<run>/gates/<n>-gate-qualite`.
-2. Lire `verdict.txt` toi-même ; comparer l'empreinte à celle du journal.
-3. ROUGE → constats = lignes ROUGE et fins de log, transmis à l'étape « Échec → ».
+1. Sans lire le skill : `bash <skills>/verification-qualite/scripts/gate.sh --niveau <niveau>
+   --base <base> --sortie <run>/gates/<n>-<id> [--tolerer <clés>]`.
+2. Code 2 → STOP avec le message, sans relancer avec d'autres options.
+3. Lire `verdict.txt` seul. Empreinte (1re ligne) ≠ journal → STOP : un contrôle a pu être
+   affaibli ; l'humain valide, tu mets le journal à jour (`onboarding`, `maj-dependances` : sans STOP).
+4. `ROUGE` → constats = lignes ROUGE et fins de log affichées par le script (ne pas ouvrir les
+   logs), pour l'étape « Échec → ». `ABSENT` : non bloquant, repris au résumé (recommander `onboarding`).
 Sortie attendue : chemin du verdict et VERDICT au journal
 Gate : `VERDICT VERT`

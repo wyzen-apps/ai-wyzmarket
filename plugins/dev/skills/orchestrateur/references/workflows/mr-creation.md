@@ -1,6 +1,7 @@
 # Workflow : mr-creation
 
 La demande de MR/PR vaut demande explicite de push.
+Requis : `thermo-nuclear-code-quality-review`
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|

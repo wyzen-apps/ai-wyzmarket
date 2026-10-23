@@ -1,6 +1,7 @@
 # Workflow : audit-securite
 
 Aucune modification. Les corrections passent ensuite par `fix`, un constat retenu à la fois.
+Requis : aucun skill externe
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|

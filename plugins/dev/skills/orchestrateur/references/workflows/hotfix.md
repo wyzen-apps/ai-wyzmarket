@@ -1,13 +1,14 @@
 # Workflow : hotfix
 
 Branche : `hotfix`, depuis la branche de production ou le tag indiqué · Gate : `complet` partout.
+Requis : `context7-mcp`
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|
 | 1 | `branche` | base = production ou tag, confirmée par l'humain | 2 | STOP |
 | 2 | `reproduction` | toujours | 3 | STOP |
 | 3 | `diagnostic` | toujours | 4 | STOP |
-| 4 | `plan` | toujours | 5 | STOP |
+| 4 | `plan-court` | toujours | 5 | STOP |
 | 5 | `implementation` | correction minimale | 6 | STOP |
 | 6 | `gate-qualite` | niveau `complet`, tolérance `depot:arbre` (avant commit) | 7 | 8 |
 | 7 | `revue-code` | toujours | 9 | 8 |

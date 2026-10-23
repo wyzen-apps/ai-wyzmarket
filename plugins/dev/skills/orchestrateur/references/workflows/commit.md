@@ -1,6 +1,7 @@
 # Workflow : commit
 
 Pour des modifications faites par l'humain, hors d'un run.
+Requis : aucun skill externe
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|

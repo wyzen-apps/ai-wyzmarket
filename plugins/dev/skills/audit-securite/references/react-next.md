@@ -1,12 +1,9 @@
-# Checklist React / Next.js
+# React / Next.js — points propres
 
-- XSS : `dangerouslySetInnerHTML` sans assainissement ; URL `javascript:` dans `href`.
-- Secrets : clé ou jeton dans une variable `NEXT_PUBLIC_*` ou dans le bundle client.
-- Autorisation : server actions et route handlers sans vérification de session et de droits côté serveur ;
-  masquage d'un bouton considéré comme un contrôle d'accès.
-- SSRF : `fetch` côté serveur vers une URL fournie par l'utilisateur.
-- Redirections ouvertes : redirection vers un paramètre d'URL non validé.
-- Jetons : jeton d'authentification dans `localStorage` plutôt qu'en cookie `HttpOnly`.
-- En-têtes : CSP, `X-Frame-Options`/`frame-ancestors`, `Referrer-Policy` absents de la configuration.
-- CORS : `Access-Control-Allow-Origin: *` avec identifiants.
-- Données : informations sensibles renvoyées au client par un composant serveur.
+- `dangerouslySetInnerHTML` sans assainissement ; `href` en `javascript:`.
+- Secret dans `NEXT_PUBLIC_*` ou le bundle client ; données sensibles rendues par un composant serveur.
+- Server actions et route handlers sans contrôle de session et de droits ; bouton masqué pris
+  pour un contrôle d'accès.
+- `fetch` serveur vers une URL utilisateur ; redirection vers un paramètre non validé.
+- Jeton dans `localStorage` au lieu d'un cookie `HttpOnly`.
+- CSP, `frame-ancestors`, `Referrer-Policy` absents ; `Access-Control-Allow-Origin: *` avec identifiants.

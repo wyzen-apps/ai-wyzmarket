@@ -1,6 +1,7 @@
 # Workflow : debug
 
 Aucune modification persistante du dépôt ; aucune branche ; aucune DoD.
+Requis : aucun skill externe
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|

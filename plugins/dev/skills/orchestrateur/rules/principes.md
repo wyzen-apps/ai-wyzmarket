@@ -1,37 +1,32 @@
 # Principes
 
-## Réfléchir avant de coder
-- Expliciter les hypothèses ; plusieurs interprétations → les présenter et demander, jamais choisir en silence.
-- Signaler une approche plus simple quand elle existe.
+Acquis, non rappelés : KISS, YAGNI, SOLID, Clean Architecture, modifications chirurgicales.
+Seules les exigences propres à ce plugin suivent.
 
-## Simplicité
-- Le minimum de code qui résout la demande : pas de fonctionnalité non demandée, pas
-  d'abstraction spéculative, pas de configuration « au cas où ».
+## Vérité
+- API, option, route, configuration ou librairie non vérifiée = inexistante. Sources : code du
+  dépôt, puis documentation officielle de la version du lockfile, puis index du dépôt ; jamais la
+  mémoire seule pour un fait vérifiable.
+- Plusieurs interprétations → les présenter et demander. « Je ne sais pas » plutôt qu'inventer.
+- Défaut hors périmètre : signalé, jamais corrigé. Code au rôle inconnu : jamais supprimé.
 
-## Modifications chirurgicales
-- Chaque ligne modifiée se rattache à la demande ; pas d'amélioration du code voisin.
-- Un défaut vu hors périmètre est signalé, pas corrigé.
-
-## Objectif vérifiable
-- Traduire la demande en critères vérifiables (tests, gate) et boucler jusqu'au vert.
-
-## Anti-hallucination
-- Méthode, option, route, configuration ou librairie non vérifiée = inexistante.
-- Sources, par ordre de confiance : le code du dépôt ; la documentation officielle de la version
-  installée (lockfile) ; l'index du dépôt s'il existe ; la mémoire du modèle, jamais seule pour un
-  fait vérifiable.
-- Ne pas supprimer de code sans comprendre son rôle.
-- Dire « je ne sais pas » plutôt qu'inventer.
-
-## Normalisation du code
-- Avant d'écrire du code, chercher la configuration de normalisation du langage touché
-  (`.editorconfig`, `phpcs.xml`, `.php-cs-fixer.php`, `.prettierrc`, `eslint.config.*`, `biome.json`,
-  `.shellcheckrc`, `PSScriptAnalyzerSettings.psd1`…) et la respecter, même si aucun script ne l'exécute.
-- Configuration en erreur (syntaxe invalide, option supprimée ou dépréciée, chemin inexistant) :
-  la corriger, en vérifiant l'option dans la documentation de la version installée.
-- Corriger n'est jamais affaiblir : aucune règle désactivée, aucune exclusion ni seuil relâché ;
-  signaler la correction à l'humain.
-
-## Réutiliser l'existant
+## Existant
 - Chercher dans le code et `docs/ia/references.md` avant de créer un service, un composant ou un helper.
-- Suivre les conventions déjà en place dans le dépôt.
+- Normalisation : respecter la configuration du langage touché (`.editorconfig`, phpcs,
+  php-cs-fixer, prettier, eslint, biome, `.shellcheckrc`, PSScriptAnalyzer…), même sans script.
+  Configuration en erreur : la corriger (option vérifiée dans la doc de la version), jamais
+  l'affaiblir (règle désactivée, exclusion, seuil relâché) ; le signaler.
+
+## Architecture
+- Domaine sans framework, ORM, client HTTP ni système de fichiers ; toute I/O (base, HTTP,
+  fichiers, messages, horloge) derrière une interface domaine ou application.
+- Contrôleurs, commandes, composants : minces, ils orchestrent un use case ; aucun `new` de
+  service dans le métier. Organisation par domaine, selon la structure existante.
+- Fichier > 500 lignes ou fonction > 50 lignes : découpage justifié. Ni code mort ni commenté ;
+  dette notée `TODO(scope): description`.
+
+## Nommage (défaut ; `RULES.md` ou la convention du dépôt priment)
+- Code, commentaires, doc en français ; termes techniques sans équivalent (token, cache, hook) en anglais.
+- Méthodes : verbe anglais + français, `camelCase` (`createFournisseur`) ; variables `camelCase`
+  en français ; classes `PascalCase` ; constantes `MAJUSCULES_AVEC_UNDERSCORES`.
+- Test : son nom énonce la règle (`testRefuseUneRemiseNegative`, `it('refuse une remise négative')`).

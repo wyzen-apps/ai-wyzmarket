@@ -1,6 +1,7 @@
 # Workflow : code-review
 
 Revue d'une branche locale ou de fichiers désignés ; corrections seulement si l'humain le demande.
+Requis : aucun skill externe
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|

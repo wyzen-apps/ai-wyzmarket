@@ -1,6 +1,7 @@
 # Workflow : mr-revue
 
 Relecture de la MR/PR d'un tiers ; rien n'est publié sans accord.
+Requis : aucun skill externe
 
 | # | Étape | Condition | Succès → | Échec → |
 |---|---|---|---|---|
