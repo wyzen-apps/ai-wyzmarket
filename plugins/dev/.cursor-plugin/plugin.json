@@ -1,6 +1,6 @@
 {
   "name": "dev",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Orchestrateur de développement : feature, fix, refactor, revue, MR/PR, audits, dépendances, avec gates DoD bloquantes. Sans dépendance externe.",
   "author": {
     "name": "Wyzengroup"

@@ -58,11 +58,12 @@ Rends uniquement ce rapport, 40 lignes au plus, sans code ni diff recopié :
 | Étape | Gate |
 |---|---|
 | `analyse` | rapport recopié dans `<run>/analyse.md` ; aucune affirmation sans source ; inconnue bloquante → STOP humain |
-| `implementation` | ligne d'échec du test rouge présente (hors refactor), sinon rejet |
+| `implementation` | ligne d'échec du test rouge présente (hors refactor), sinon rejet ; chaque assertion existante changée justifiée |
+| `corrections` | ligne d'échec présente pour chaque constat de comportement, sinon rejet |
+| `ui` | ligne d'échec présente si logique, état ou comportement modifié ; aucun écart bloquant |
 | `reproduction` | l'échec vient du bug décrit |
 | `diagnostic` | cause racine prouvée par une observation |
 | `revue-code`, `revue-globale` | 0 bloquant ; chaque majeur corrigé ou son maintien justifié au journal |
-| `ui` | aucun écart bloquant |
 | `audit` | chaque constat a sa preuve ; chaque remédiation a ses tests de protection |
 | `inventaire` | chaque lot a son risque et sa source |
 | `reconstruction` | checklist de cohérence sans écart |

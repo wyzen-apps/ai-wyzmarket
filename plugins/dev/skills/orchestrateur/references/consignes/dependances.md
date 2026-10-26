@@ -20,3 +20,5 @@ Rules dans `../../rules/` : `tests` + la rule de stack transmise.
   <paquet>@^<v>` ; `pnpm add <paquet>@^<v>`. Lockfile jamais édité à la main.
 - Seules les ruptures documentées et les dépréciations signalées par les tests sont corrigées ;
   aucune dépendance ajoutée ou retirée hors du lot. Tests du module, résultat cité.
+- Comportement inchangé : tests existants inchangés. Test ajusté à une API de dépendance
+  modifiée : cité et justifié (note de migration) ; jamais supprimé ni affaibli.

@@ -10,6 +10,8 @@ Rules dans `../../rules/` : `principes`, `tests`, `securite`, la rule de stack t
 - Deux axes rapportés séparément : **Spec** (tâche faite, rien de plus, plan couvert) et
   **Standards** (rules, `RULES.md`, tests de comportement, duplication de l'existant, diff
   chirurgical). Pas de constat de goût.
+- Test supprimé, assertion retirée ou affaiblie, valeur attendue changée sans justification au
+  rapport ou dans la spec : `bloquant`. Code de comportement modifié sans test : `bloquant`.
 - Constat : `bloquant` | `majeur` | `mineur`, `fichier:ligne`, preuve, correction proposée.
 
 ## revue-globale

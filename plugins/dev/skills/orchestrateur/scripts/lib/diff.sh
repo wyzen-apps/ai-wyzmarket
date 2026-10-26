@@ -119,6 +119,12 @@ detecter_secrets() {
   printf '%s\n' "$entree" | grep -v -F -- "$MARQUEUR_EXEMPTION" | correspondances "$REGEX_SECRET_GENERIQUE" "secret en dur" || true
 }
 
+# Fichiers de test parmi les chemins de stdin (dossiers tests/, __tests__/, spec/ ;
+# suffixes Test, _test, .test, .spec ; préfixe test_ ou test-).
+filtrer_fichiers_test() {
+  grep -E '(^|/)(tests?|__tests__|spec)/|(Test|_test|\.test|\.spec)\.[A-Za-z]+$|(^|/)test[_-][^/]*$' || true
+}
+
 # Fichiers d'environnement locaux (stdin : chemins), destinés à ne jamais être versionnés.
 fichiers_env_sensibles() {
   grep -E '(^|/)\.env(\.[A-Za-z0-9_-]+)*\.local$' || true

@@ -1,0 +1,488 @@
+@startuml routage
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Orchestrateur — routage d'une demande
+
+start
+:Demande de l'utilisateur;
+if (Run EN_COURS correspondant\nou « continue » ?) then (oui)
+  :Relire journal.md du run;
+  :Reprendre à la première ligne non FAIT;
+  stop
+endif
+partition "Hors workflow" {
+  if (Question sur le code ?) then (oui)
+    :Réponse directe sourcée fichier:ligne; <<#E8F5E9>>
+    stop
+  elseif (Commit de modifications faites à la main ?) then (oui)
+    :Skill **git** § Commit; <<#E8F5E9>>
+    stop
+  endif
+}
+:Créer .orchestrateur/runs/<date>-<slug>/\njournal.md depuis le gabarit;
+:État Git, RULES.md du projet;
+if (Ni AGENTS.md d'amorçage\nni scripts test/lint/typecheck ?) then (oui)
+  :Proposer **onboarding**;
+endif
+partition "Routage (première ligne qui correspond)" {
+  switch (Intention ?)
+  case (faisable ? POC\nbrainstorming technique)
+    :**spike**;
+  case (hotfix, urgent en prod)
+    :**fix** / hotfix;
+  case (relis la MR/PR !123)
+    :**revue** / mr;
+  case (crée la MR/PR)
+    :**mr-creation**;
+  case (pourquoi ça plante,\nsans correction)
+    :**fix** / debug;
+  case (corrige, bug)
+    :**fix**;
+  case (refactorise)
+    :**refactor**;
+  case (nouvelle fonctionnalité\nbrainstorming produit)
+    :**feature**;
+  case (relis la branche)
+    :**revue** / locale;
+  case (audit sécurité\nou architecture)
+    :**audit**;
+  case (mets à jour\nles dépendances)
+    :**maj-dependances**;
+  case (prends en main\nle projet)
+    :**onboarding**;
+  case (documente\nle projet)
+    :**doc-legacy**;
+  endswitch
+}
+note right
+  Demande ambiguë : l'orchestrateur demande.
+  Demande composée : workflows enchaînés, annoncés.
+  Brainstorming : étape **cadrage** (approches
+  et recommandation) de feature, ou spike.
+end note
+:Charger references/workflows/<type>.md\net l'exécuter ligne par ligne;
+stop
+
+legend right
+  |= Couleur |= Exécutant |
+  | blanc | orchestrateur (toi) |
+  |<#E1F5FE>| sous-agent (profil:consigne) |
+  |<#E8F5E9>| skill appelé |
+  |<#FFE0B2>| STOP humain |
+endlegend
+@enduml
+
+@startuml feature
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Workflow feature — branche feat
+
+start
+:1. cadrage complet\napproches, recommandation, spec.md;
+:STOP : spec approuvée; <<#FFE0B2>>
+:2. analyse\n//lecture:analyse//; <<#E1F5FE>>
+:3. plan\n//expertise:conception//; <<#E1F5FE>>
+:STOP : plan validé; <<#FFE0B2>>
+:4. branche\n//skill git § Branche// + gate de référence; <<#E8F5E9>>
+partition "Pour chaque tâche du plan" {
+  repeat
+    :5. implementation — TDD\n//execution:code//; <<#E1F5FE>>
+    if (Interface touchée ?) then (oui)
+      :6. ui\n//execution:code//; <<#E1F5FE>>
+    endif
+    if (Métier modifié ?) then (oui)
+      :7. documentation\n//skill documentation-fonctionnelle//; <<#E8F5E9>>
+    endif
+    repeat
+      :8. gate qualite\n//gate.sh//;
+      if (VERT ?) then (oui)
+        :9. revue-code\n//revue:revue//; <<#E1F5FE>>
+      endif
+      backward:10. corrections — TDD\n//execution:code//;
+    repeat while (Gate rouge ou constats ?) is (oui) not (non)
+    :11. commit\n//skill git § Commit//; <<#E8F5E9>>
+  repeat while (Tâche restante ?) is (oui) not (non)
+}
+partition "Finalisation" {
+  repeat
+    repeat
+      :12. revue-globale\n//expertise:revue//; <<#E1F5FE>>
+      backward:13. corrections, 14. gate, 15. commit;
+    repeat while (Constats ?) is (oui) not (non)
+    :16. changelog\n//skill documentation-fonctionnelle//; <<#E8F5E9>>
+    :17. dod\ngate complet + bloc DoD;
+  repeat while (DoD rouge ?) is (oui) not (non)
+}
+:18. resume;
+stop
+@enduml
+
+@startuml fix
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Workflow fix — variantes debug et hotfix
+
+start
+:1. triage\nsimple ou complexe;
+if (Complexe ?) then (oui)
+  :2. cadrage court;
+  :STOP : cadrage validé; <<#FFE0B2>>
+endif
+if (Variante debug ?) then (non)
+  :3. branche\n//skill git § Branche//\nfix depuis la base, hotfix depuis la production; <<#E8F5E9>>
+endif
+:4. reproduction\n//execution:bug//\ntest rouge (debug : script dans le run); <<#E1F5FE>>
+:5. diagnostic\n//expertise:bug//\ncause racine fichier:ligne; <<#E1F5FE>>
+if (Variante debug ?) then (oui)
+  :6. rapport\ncause, correction proposée;
+  :STOP : lancer un fix ?; <<#FFE0B2>>
+  stop
+endif
+:7. plan court;
+if (Complexe ou hotfix ?) then (oui)
+  :STOP : plan validé; <<#FFE0B2>>
+endif
+:8. implementation — correction minimale, TDD\n//execution:code//; <<#E1F5FE>>
+if (Métier modifié et pas hotfix ?) then (oui)
+  :9. documentation\n//skill documentation-fonctionnelle//; <<#E8F5E9>>
+endif
+repeat
+  repeat
+    :10. gate\nqualite (hotfix : complet);
+    if (VERT ?) then (oui)
+      :11. revue-code\n//revue:revue//; <<#E1F5FE>>
+    endif
+    backward:12. corrections — TDD\n//execution:code//;
+  repeat while (Gate rouge ou constats ?) is (oui) not (non)
+  :13. commit\n//skill git § Commit//; <<#E8F5E9>>
+  :14. changelog\n//skill documentation-fonctionnelle//; <<#E8F5E9>>
+  :15. dod;
+repeat while (DoD rouge ?) is (oui) not (non)
+:16. resume\ncause racine, prévention\n(hotfix : rollback, report sur la base);
+stop
+@enduml
+
+@startuml refactor
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Workflow refactor — comportement constant
+
+start
+:1. analyse d'impact\n//lecture:analyse//; <<#E1F5FE>>
+:2. plan\n//expertise:conception//; <<#E1F5FE>>
+:STOP : plan validé; <<#FFE0B2>>
+:3. branche\n//skill git § Branche// + gate de référence; <<#E8F5E9>>
+if (Couverture du périmètre insuffisante ?) then (oui)
+  :4. caracterisation\ntests figeant l'existant\n//execution:code//; <<#E1F5FE>>
+  :5. gate;
+  :6. commit des tests\n//skill git § Commit//; <<#E8F5E9>>
+endif
+partition "Pour chaque étape du plan" {
+  repeat
+    :7. implementation\nvaleurs attendues inchangées\n//execution:code//; <<#E1F5FE>>
+    repeat
+      :8. gate qualite;
+      if (VERT ?) then (oui)
+        :9. revue-code\n//revue:revue//; <<#E1F5FE>>
+      endif
+      backward:10. corrections\n//execution:code//;
+    repeat while (Gate rouge ou constats ?) is (oui) not (non)
+    :11. commit\n//skill git § Commit//; <<#E8F5E9>>
+  repeat while (Étape restante ?) is (oui) not (non)
+}
+repeat
+  repeat
+    :12. revue-globale\n//expertise:revue//; <<#E1F5FE>>
+    backward:13. corrections, 14. gate, 15. commit;
+  repeat while (Constats ?) is (oui) not (non)
+  :16. dod\nTDD, doc, CHANGELOG en N/A;
+repeat while (DoD rouge ?) is (oui) not (non)
+:17. resume;
+stop
+@enduml
+
+@startuml spike
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Workflow spike — code jetable, jamais livré
+
+start
+:1. cadrage court\nquestion et sonde;
+:STOP : sonde validée; <<#FFE0B2>>
+:2. branche spike\n//skill git § Branche//; <<#E8F5E9>>
+:3. exploration\ncode minimal, sans tests ni commit\n//execution:code//; <<#E1F5FE>>
+:4. rapport\nrecommandation, coût réel;
+:STOP : suite décidée\n(feature, abandon…); <<#FFE0B2>>
+stop
+@enduml
+
+@startuml revue
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Workflow revue — variantes locale et mr
+
+start
+if (Variante mr ?) then (oui)
+  :1. recuperation-mr\n//skill git, forge.md mode recuperer//; <<#E8F5E9>>
+endif
+:2. gate qualite\nconstat seul;
+:3. revue-code\n//revue:revue//; <<#E1F5FE>>
+if (Diff sensible ou audit demandé ?) then (oui)
+  :4. audit sécurité\n//expertise:audit + skill audit//; <<#E8F5E9>>
+endif
+:5. rapport\nconstats par sévérité;
+if (Variante mr ?) then (oui)
+  :STOP : publier les commentaires ?; <<#FFE0B2>>
+  if (Accord ?) then (oui)
+    :6. publication-revue\n//skill git, forge.md mode publier//; <<#E8F5E9>>
+  endif
+  stop
+endif
+if (Constats retenus par l'humain ?) then (non)
+  stop
+endif
+:7. branche si sur la base\n//skill git § Branche//; <<#E8F5E9>>
+repeat
+  repeat
+    :8. corrections — TDD\n//execution:code//; <<#E1F5FE>>
+    :9. gate qualite;
+  repeat while (Gate rouge ?) is (oui) not (non)
+  :10. commit\n//skill git § Commit//; <<#E8F5E9>>
+  :11. dod;
+  backward:3. revue-code;
+repeat while (DoD rouge ?) is (oui) not (non)
+:12. resume;
+stop
+@enduml
+
+@startuml mr-creation
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Workflow mr-creation — la demande vaut push
+
+start
+:1. synchro-base\n//skill git § Push, synchronisation, merge//; <<#E8F5E9>>
+if (Conflit ?) then (oui)
+  :STOP : fichiers en conflit; <<#FFE0B2>>
+  stop
+endif
+if (Aucune revue globale verte\ndans les runs de la branche ?) then (oui)
+  :2. revue-globale\n//expertise:revue//; <<#E1F5FE>>
+endif
+:3. dod sur toute la branche;
+if (DoD rouge ?) then (oui)
+  :STOP : DoD rouge; <<#FFE0B2>>
+  stop
+endif
+:4. creation-mr\n//skill git, forge.md mode creer//; <<#E8F5E9>>
+:5. resume + lien MR/PR;
+stop
+@enduml
+
+@startuml audit
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Workflow audit — variantes securite et architecture
+
+start
+:1. audit\n//expertise:audit + skill audit//\naucune modification; <<#E8F5E9>>
+:2. rapport\nconstats prouvés, par sévérité;
+:STOP : constats retenus ?; <<#FFE0B2>>
+switch (Suite)
+case (constat de sécurité)
+  :Workflow **fix**\nun constat à la fois;
+case (remédiation d'architecture)
+  :Workflow **refactor**\nune étape à la fois;
+case (aucune)
+endswitch
+stop
+@enduml
+
+@startuml maj-dependances
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Workflow maj-dependances — branche chore
+
+start
+:1. inventaire\noutdated + audit\n//lecture:dependances//; <<#E1F5FE>>
+:2. plan court\nun lot par tâche;
+:STOP : lots validés; <<#FFE0B2>>
+:3. branche chore\n//skill git § Branche// + gate de référence; <<#E8F5E9>>
+partition "Pour chaque lot" {
+  repeat
+    :4. lot\nnotes de migration, montée de version\n//execution:dependances//; <<#E1F5FE>>
+    repeat
+      :5. gate qualite;
+      if (VERT ?) then (oui)
+        :6. revue-code\n//revue:revue//; <<#E1F5FE>>
+      endif
+      backward:7. corrections\n//execution:code//;
+    repeat while (Gate rouge ou constats ?) is (oui) not (non)
+    :8. commit\n//skill git § Commit//; <<#E8F5E9>>
+  repeat while (Lot restant ?) is (oui) not (non)
+}
+:9. changelog\n//skill documentation-fonctionnelle//; <<#E8F5E9>>
+:10. dod\naudit jamais N/A;
+:11. resume\nversions avant / après;
+stop
+@enduml
+
+@startuml onboarding
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Workflow onboarding — branche chore/onboarding-orchestrateur
+
+start
+:1. analyse-projet\nmodules, scripts, forge, AGENTS.md\n//lecture:onboarding//; <<#E1F5FE>>
+:STOP : propositions retenues ?; <<#FFE0B2>>
+:2. branche\n//skill git § Branche//; <<#E8F5E9>>
+:3. application\nAGENTS.md, CLAUDE.md, scripts, RULES.md;
+if (Échec préexistant ?) then (oui)
+  :STOP : tolérer l'échec ?; <<#FFE0B2>>
+endif
+:4. gate qualite\navec tolérances acceptées;
+:5. commit\n//skill git § Commit//; <<#E8F5E9>>
+:6. resume;
+stop
+@enduml
+
+@startuml doc-legacy
+!theme plain
+skinparam {
+ defaultFontName Helvetica
+ defaultFontSize 12
+ partition {
+ FontColor blue
+ FontSize 18
+ ' BackgroundColor<<Client>> #E1FFE1
+ }
+ note {
+ BackgroundColor #ffffac
+ }
+}
+title Workflow doc-legacy — branche docs
+
+start
+:1. inventaire-doc\n//lecture:documentation + skill documentation-fonctionnelle//; <<#E8F5E9>>
+:STOP : scopes et ordre validés; <<#FFE0B2>>
+:2. branche docs\n//skill git § Branche//; <<#E8F5E9>>
+partition "Pour chaque scope" {
+  repeat
+    :3. reconstruction\n//execution:documentation + skill documentation-fonctionnelle//; <<#E8F5E9>>
+    :4. gate qualite;
+    :5. commit\n//skill git § Commit//; <<#E8F5E9>>
+  repeat while (Scope restant ?) is (oui) not (non)
+}
+:6. resume\nrelecture humaine demandée;
+stop
+@enduml

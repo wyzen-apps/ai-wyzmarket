@@ -6,7 +6,7 @@ set -euo pipefail
 # Description : gate qualité déterministe. Repère les manifestes touchés par le
 #               diff avec la base, exécute leurs scripts conventionnels (tests,
 #               lint, types, audit), scanne les lignes ajoutées (contournements,
-#               secrets) et écrit un verdict ligne par ligne.
+#               secrets, tests supprimés) et écrit un verdict ligne par ligne.
 # Usage       : gate.sh --niveau qualite|complet --base <ref> --sortie <dossier>
 #                       [--tolerer <portée:contrôle,…>] [--delai <secondes>] [--tous]
 # Dépendances : bash 4+, git, awk, grep ; jq, ou php (composer.json) et node
@@ -274,6 +274,14 @@ controler_diff() {
     noter diff secrets ROUGE "$(printf '%s\n%s\n' "$trouves" "$env" | sed '/^$/d' | paste -sd ';' -)"
   else
     noter diff secrets VERT
+  fi
+  trouves="$(git_brut diff --name-only --diff-filter=D -M "$1" | filtrer_fichiers_test)"
+  if [[ -n "$trouves" ]] && est_tolere "diff:tests-supprimes" "$TOLERANCES"; then
+    noter diff tests-supprimes TOLERE "$(printf '%s\n' "$trouves" | paste -sd ';' -)"
+  elif [[ -n "$trouves" ]]; then
+    noter diff tests-supprimes ROUGE "$(printf '%s\n' "$trouves" | paste -sd ';' -)"
+  else
+    noter diff tests-supprimes VERT
   fi
   if command -v gitleaks >/dev/null 2>&1; then
     # Seules les lignes ajoutées sont analysées : un secret ancien, hors diff, relève d'un audit.

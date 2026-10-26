@@ -11,7 +11,7 @@ DoD : TDD, doc fonctionnelle et CHANGELOG en N/A (comportement inchangé) ; test
 | 4 | `caracterisation` | execution:code | couverture du périmètre insuffisante | 5 | STOP |
 | 5 | `gate` | toi | tests ajoutés en 4 | 6 | STOP |
 | 6 | `commit` | toi | tests ajoutés en 4 | 7 | STOP |
-| 7 | `implementation` | execution:code | étape suivante du plan, aucune assertion modifiée | 8 | STOP |
+| 7 | `implementation` | execution:code | étape suivante du plan, valeurs attendues inchangées | 8 | STOP |
 | 8 | `gate` | toi | `qualite` | 9 | 10 |
 | 9 | `revue-code` | revue:revue | toujours | 11 | 10 |
 | 10 | `corrections` | execution:code | constats de 8 ou 9 | 8 | STOP |
