@@ -1,7 +1,8 @@
 ---
 name: shell-scripting
 description: Conventions maison pour créer ou modifier un script bash/sh (*.sh, *.bash) — structure, en-tête, variables, style, validation shellcheck.
-paths: "**/*.sh, **/*.bash"
+disable-model-invocation: true
+model: sonnet
 effort: low
 ---
 

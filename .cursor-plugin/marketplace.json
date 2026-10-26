@@ -16,7 +16,7 @@
     {
       "name": "dev",
       "source": "./plugins/dev",
-      "description": "Orchestrateur d'agents de développement : feature, fix, revue, MR/PR, audits, dépendances, avec gates DoD bloquantes."
+      "description": "Orchestrateur de développement : feature, fix, refactor, revue, MR/PR, audits, dépendances, avec gates DoD bloquantes. Sans dépendance externe."
     },
     {
       "name": "git",

@@ -2,7 +2,8 @@
 name: documentation-fonctionnelle
 description: Tient à jour la documentation fonctionnelle non technique (docs/ia/ — vue d'ensemble, specs, use cases, matrice des droits, DESIGN, OpenAPI) et le CHANGELOG, ou la reconstruit depuis le code.
 disable-model-invocation: true
-effort: low
+model: sonnet
+effort: medium
 ---
 
 # Documentation fonctionnelle

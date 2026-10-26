@@ -1,9 +1,10 @@
 # Tests
 
-- TDD : test rouge pour la bonne raison (ligne d'échec recopiée), code minimal, vert. Vert du
-  premier coup = test à corriger avant le code. Bug = test de régression d'abord.
-- Comportement observable uniquement. Interdits : assertion triviale, test sans assertion,
-  `class_exists` et équivalents, snapshot non relu, `skip`/`only`/`markTestSkipped` livrés.
-- Unitaire (absolu) : ni base, ni réseau, ni service externe, ni secret réel ; I/O remplacées par
-  des doubles via leurs interfaces. Sinon c'est un test d'intégration, dans sa suite.
-- Un comportement par test ; Arrange / Act / Assert visibles.
+- TDD en tranches verticales : un test, son code minimal, puis le suivant. Rouge pour la bonne
+  raison (ligne d'échec recopiée) ; vert du premier coup = test à corriger. Bug = test de régression d'abord.
+- Comportement observable via l'interface publique ; valeur attendue issue d'une source
+  indépendante (exemple chiffré, spec), jamais recalculée comme le code.
+- Interdits livrés : test sans assertion, `class_exists` et équivalents, snapshot non relu,
+  `skip`/`only`/`markTestSkipped`.
+- Unitaire : ni base, ni réseau, ni service externe, ni secret réel ; I/O remplacées par des
+  doubles via leurs interfaces. Sinon c'est un test d'intégration, dans sa suite.
